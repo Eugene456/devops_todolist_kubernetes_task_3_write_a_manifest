@@ -4,11 +4,12 @@ FROM python:3.8
 # Set the working directory within the container
 WORKDIR /src
 
-# Copy the application code into the container
+# Install dependencies first to leverage Docker layer caching
+COPY /src/requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy the rest of the application code into the container
 COPY /src .
-
-
-RUN pip install -r /src/requirements.txt
 
 # Expose port 8000 to the host
 EXPOSE 8000
